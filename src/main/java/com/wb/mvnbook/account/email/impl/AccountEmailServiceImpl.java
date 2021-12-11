@@ -1,6 +1,7 @@
 package com.wb.mvnbook.account.email.impl;
 
 import com.wb.mvnbook.account.email.AccountEmailService;
+import com.wb.mvnbook.account.exception.AccountEmailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -12,7 +13,7 @@ public class AccountEmailServiceImpl implements AccountEmailService {
     private String systemEmail;
 
     @Override
-    public void sendMail(String to, String subject, String htmlText) throws Exception {
+    public void sendMail(String to, String subject, String htmlText) throws AccountEmailException {
         try{
             MimeMessage msg = javaMailSender.createMimeMessage();
             MimeMessageHelper msgHelper = new MimeMessageHelper(msg);
@@ -23,7 +24,7 @@ public class AccountEmailServiceImpl implements AccountEmailService {
             javaMailSender.send(msg);
 
         } catch (MessagingException ex){
-            throw new Exception("Failed to send email", ex);
+            throw new AccountEmailException("Failed to send email", ex);
         }
     }
 
